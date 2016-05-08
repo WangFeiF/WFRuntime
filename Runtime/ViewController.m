@@ -27,7 +27,7 @@
 }
 
 - (void)sendMessage {
-//    Class ClassPerson = object_getClass("");
+#pragma 消息机制
     Class classPerson  = objc_getClass("WFPerson");
     
     // 同过类创建实例对象
@@ -40,11 +40,20 @@
     objc_msgSend(person,@selector(runWithCount:),10);
     objc_msgSend(person, @selector(eat));
     
+#pragma 动态关联方法
+    /**
+     *  person 对象并没有 sayHello 方法 这时候  用WFPerson 内部的hello 代替 sayHello
+     */
     objc_msgSend(person, @selector(sayHello));
-    
+
+#pragma 消息转发
+    /**
+     *  person 发给stoke  的方法，通过黑魔法操作，转给了 touch
+     */
     objc_msgSend(person, @selector(stoke));
 }
 
+#pragma 方法交换  详细操作  看UIImage＋Swizzling的分类
 - (void)methodSwizzling {
     UIImage *image = [UIImage imageNamed:@"hitLive"];
     _imageOrigin.image = image;
